@@ -1,50 +1,16 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AprovaAI — Concursos</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1150px;margin:auto;padding:24px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}.brand{color:#fff;text-decoration:none;font-size:28px;font-weight:900;padding-top:10px}.brand b{color:var(--gold)}
-.authBox{display:flex;flex-direction:column;align-items:flex-end}.auth{background:var(--panel);border:1px solid #343b45;border-radius:14px;padding:12px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 25px #0005}.auth input{width:145px;padding:9px 10px;background:#0e1115;color:#fff;border:1px solid #343b45;border-radius:8px;outline:none}.auth input:focus{border-color:var(--gold)}
-.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--gold);color:#111;font-weight:800;cursor:pointer;text-decoration:none;white-space:nowrap}.btn.secondary{background:#2b3139;color:#fff;border:1px solid #434a54}.authMsg{color:#f2d86b;font-size:12px;margin-top:6px;text-align:right;max-width:420px}.status{display:none;background:#20262d;border:1px solid #343b45;border-radius:10px;padding:10px 12px}.status button{margin-left:8px}
-.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515)}h1{font-size:42px;margin:0 0 10px}.muted{color:var(--muted);line-height:1.5}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px;transition:.2s}.card:hover{border-color:var(--gold);transform:translateY(-2px)}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.card .btn{display:inline-block;margin-top:16px}
-@media(max-width:800px){.top{flex-direction:column}.authBox{width:100%;align-items:stretch}.auth{width:100%;flex-wrap:wrap}.auth input{flex:1;min-width:120px}.authMsg{text-align:left}.grid{grid-template-columns:1fr}}
-@media(max-width:500px){.wrap{padding:15px}.brand{font-size:26px}.auth{display:grid;grid-template-columns:1fr 1fr}.auth input{width:100%;min-width:0}.auth .btn{width:100%;text-align:center}.authMsg{grid-column:1/-1}}
+body{margin:0;background:#0d1014;color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:32px}.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515)}h1{font-size:42px;margin:0 0 10px}.muted{color:#a6adb7}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:#181d23;border:1px solid #303740;border-radius:18px;padding:25px;transition:.2s}.card:hover{border-color:#e4c64a;transform:translateY(-2px)}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.btn{display:inline-block;margin-top:16px;background:#e4c64a;color:#111;padding:11px 15px;border-radius:10px;font-weight:bold}@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}}
 </style>
 </head>
-<body>
-<div class="wrap">
-<header class="top">
-<a class="brand" href="index.html">Aprova<b>AI</b></a>
-<div class="authBox">
-<form class="auth" id="authForm" onsubmit="login(event)">
-<input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
-<input id="password" type="password" placeholder="Senha" autocomplete="current-password" required>
-<button class="btn" type="submit">🔐 Entrar</button>
-<a class="btn secondary" href="login.html">Cadastro</a>
-</form>
-<div id="authMsg" class="authMsg"></div>
-<div id="logged" class="status"></div>
-</div>
-</header>
-<section class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>AprovaAI</h1><p class="muted">Escolha o concurso que você quer estudar.</p></section>
+<body><div class="wrap">
+<div class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>AprovaAI</h1><p class="muted">Escolha o concurso que você quer estudar.</p></div>
 <div class="grid">
 <a class="card" href="ace_marica.html"><div class="icon">🦟</div><h2>ACE Maricá</h2><p class="muted">Agente de Combate às Endemias — Maricá/RJ.</p><span class="btn">Estudar ACE Maricá →</span></a>
-<a class="card" href="transpetro_cargos.html"><div class="icon">⚓</div><h2>Transpetro</h2><p class="muted">Escolha o cargo/ênfase antes de entrar no ambiente de estudos.</p><span class="btn">Escolher cargo Transpetro →</span></a>
-</div>
-<p class="muted" style="margin-top:28px">Novos concursos poderão ser adicionados aqui.</p>
-</div>
-<script>
-const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
-async function login(e){e.preventDefault();const msg=document.getElementById('authMsg');msg.textContent='Entrando...';const em=document.getElementById('email').value.trim();const pw=document.getElementById('password').value;const{error}=await sb.auth.signInWithPassword({email:em,password:pw});if(error){msg.textContent='Não foi possível entrar: '+error.message;return}msg.textContent='Login realizado. Você já pode escolher o concurso.';await init()}
-async function init(){const{data}=await sb.auth.getSession();const form=document.getElementById('authForm');const logged=document.getElementById('logged');if(data.session){form.style.display='none';logged.style.display='block';logged.innerHTML='👤 '+(data.session.user.email||'Conta conectada')+' <button class="btn secondary" onclick="logout()">Sair</button>'}}
-async function logout(){await sb.auth.signOut();location.reload()}
-init();
-</script>
-</body>
-</html>
+<a class="card" href="transpetro.html"><div class="icon">⚓</div><h2>Transpetro</h2><p class="muted">Ênfase 6 — Análise de Sistemas / SAP.</p><span class="btn">Estudar Transpetro →</span></a>
+</div><p class="muted" style="margin-top:28px">Novos concursos poderão ser adicionados aqui.</p>
+</div></body></html>
