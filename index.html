@@ -1,37 +1,16 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AprovaAI — Entrar</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AprovaAI — Concursos</title>
 <style>
-:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;padding:20px}
-.box{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px}
-.logo{font-size:32px;font-weight:900;margin-bottom:25px}.logo b{color:var(--gold)}
-h1{margin:0 0 10px;font-size:30px}.muted{color:var(--muted);line-height:1.5}
-.field{margin:16px 0}.field label{display:block;margin-bottom:7px;font-weight:700}.field input{width:100%;padding:13px;background:#0e1115;color:#fff;border:1px solid #343b45;border-radius:10px;font-size:15px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.btn{border:0;border-radius:10px;padding:13px 16px;background:var(--gold);color:#111;font-weight:800;cursor:pointer;font-size:14px}.btn.sec{background:#2b3139;color:#fff;border:1px solid #434a54}.back{display:block;text-align:center;margin-top:18px;color:#a6adb7;text-decoration:none;font-size:14px}.back:hover{color:var(--gold)}.msg{margin-top:16px;min-height:22px}
+body{margin:0;background:#0d1014;color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:32px}.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515)}h1{font-size:42px;margin:0 0 10px}.muted{color:#a6adb7}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:#181d23;border:1px solid #303740;border-radius:18px;padding:25px;transition:.2s}.card:hover{border-color:#e4c64a;transform:translateY(-2px)}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.btn{display:inline-block;margin-top:16px;background:#e4c64a;color:#111;padding:11px 15px;border-radius:10px;font-weight:bold}@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}}
 </style>
 </head>
-<body>
-<div class="box">
-<div class="logo">Aprova<b>AI</b></div>
-<h1>Entrar no AprovaAI</h1>
-<p class="muted">Entre para acessar seus ambientes de estudo. Após o login, você será levado para a página de concursos.</p>
-<div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email"></div>
-<div class="field"><label for="pass">Senha</label><input id="pass" type="password" autocomplete="current-password"></div>
-<div class="row"><button class="btn" onclick="login()">Entrar</button><button class="btn sec" onclick="signup()">Criar conta</button></div>
-<a class="back" href="concursos.html">Continuar sem login →</a>
-<div id="msg" class="msg muted"></div>
-</div>
-<script>
-const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
-function destination(){const p=sessionStorage.getItem('aprovaai_redirect');sessionStorage.removeItem('aprovaai_redirect');return p||'concursos.html'}
-async function login(){msg.textContent='Entrando...';const{error}=await sb.auth.signInWithPassword({email:email.value,password:pass.value});if(error){msg.textContent=error.message;return}location.replace(destination())}
-async function signup(){msg.textContent='Criando conta...';const{error}=await sb.auth.signUp({email:email.value,password:pass.value});if(error){msg.textContent=error.message;return}msg.textContent='Conta criada. Verifique seu e-mail se o Supabase solicitar confirmação.'}
-sb.auth.getSession().then(({data})=>{if(data.session)location.replace(destination())})
-</script>
-</body>
-</html>
+<body><div class="wrap">
+<div class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>AprovaAI</h1><p class="muted">Escolha o concurso que você quer estudar.</p></div>
+<div class="grid">
+<a class="card" href="ace_marica.html"><div class="icon">🦟</div><h2>ACE Maricá</h2><p class="muted">Agente de Combate às Endemias — Maricá/RJ.</p><span class="btn">Estudar ACE Maricá →</span></a>
+<a class="card" href="transpetro.html"><div class="icon">⚓</div><h2>Transpetro</h2><p class="muted">Ênfase 6 — Análise de Sistemas / SAP.</p><span class="btn">Estudar Transpetro →</span></a>
+</div><p class="muted" style="margin-top:28px">Novos concursos poderão ser adicionados aqui.</p>
+</div></body></html>
