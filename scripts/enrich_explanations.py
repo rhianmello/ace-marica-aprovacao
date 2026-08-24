@@ -1,17 +1,15 @@
 import json
 import os
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from openai import OpenAI
 
 ROOT = Path(__file__).resolve().parents[1]
 QUESTIONS = ROOT / "ace_marica_questoes_seed.json"
 REPORT = ROOT / "ia_explicacoes_relatorio.json"
-
 BATCH_SIZE = int(os.getenv("AI_EXPLANATION_BATCH", "10"))
-
 GENERIC = re.compile(r"^Gabarito\s+[A-E]\s+extra[ií]do da p[aá]gina final", re.I)
-
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
@@ -39,11 +37,20 @@ Use pesquisa na web. Priorize fontes oficiais e normativas: leis e atos oficiais
 Regras:
 1. Não invente fatos, leis, datas ou referências.
 2. Se o gabarito informado estiver compatível com fontes confiáveis, mantenha-o.
-3. Se houver evidência forte de que o gabarito informado está errado, NÃO corrija silenciosamente: marque como precisa_revisao=true e informe o gabarito sugerido.
+3. Se houver evidência forte de que o gabarito informado está errado, NÃO corrija silenciosamente: marque precisa_revisao=true e informe gabarito_sugerido.
 4. Se a questão estiver estruturalmente quebrada (por exemplo, o comando virou uma alternativa), marque precisa_revisao=true.
 5. A explicação deve ensinar por que a alternativa correta é correta e, quando útil, por que as principais alternativas estão erradas.
 6. Não use a frase 'gabarito extraído da página final'.
-7. Retorne somente JSON válido no formato pedido.
+7. Só marque validada quando o gabarito e a estrutura forem compatíveis com a pesquisa.
+8. Retorne SOMENTE um JSON válido com exatamente estas chaves:
+{{
+  "explicacao": "texto didático",
+  "gabarito_verificado": "A",
+  "gabarito_sugerido": "",
+  "precisa_revisao": false,
+  "fontes": ["https://...", "https://..."]
+}}
+Use gabarito_sugerido vazio quando não houver divergência. Em fontes, inclua somente URLs que realmente tenham sido usadas na pesquisa.
 """
 
 
@@ -57,19 +64,21 @@ def enrich(q):
     try:
         data = json.loads(raw)
     except json.JSONDecodeError:
-        # One repair pass without web search; this does not change the factual content.
         repair = client.responses.create(
             model=os.getenv("OPENAI_MODEL", "gpt-5.6-luna"),
-            input=f"Converta o texto abaixo em JSON válido, sem alterar o conteúdo factual:\n{raw}",
-        )
+            input=("Converta o texto abaixo em JSON válido sem alterar seu conteúdo factual. "
+                   "Use as chaves explicacao, gabarito_verificado, gabarito_sugerido, "
+                   "precisa_revisao e fontes.\n" + raw),
+    )
         data = json.loads(repair.output_text)
+
     q["explicacao"] = clean_text(data.get("explicacao"))
     q["gabarito_verificado"] = clean_text(data.get("gabarito_verificado")) or q.get("gabarito")
     q["gabarito_sugerido"] = clean_text(data.get("gabarito_sugerido"))
     q["precisa_revisao"] = bool(data.get("precisa_revisao", False))
     q["status_ia"] = "revisao" if q["precisa_revisao"] else "validada"
     q["fontes_ia"] = data.get("fontes", []) if isinstance(data.get("fontes", []), list) else []
-    q["explicacao_ia_atualizada_em"] = __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat()
+    q["explicacao_ia_atualizada_em"] = datetime.now(timezone.utc).isoformat()
     return q
 
 
