@@ -1,1 +1,73 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AprovaAI — Concursos</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>body{margin:0;background:#0d1014;color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.back{color:#ddd;text-decoration:none}.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515);margin-top:15px}h1{font-size:42px;margin:0 0 10px}.muted{color:#a6adb7;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:#181d23;border:1px solid #303740;border-radius:18px;padding:25px;transition:.2s}.card:hover{border-color:#e4c64a;transform:translateY(-2px)}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.btn{display:inline-block;margin-top:16px;background:#e4c64a;color:#111;padding:11px 15px;border-radius:10px;font-weight:bold}.logout{background:#2b3139;color:#fff;border:1px solid #434a54}.user{font-size:13px;color:#a6adb7}@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}.top{align-items:flex-start}} </style></head><body><div class="wrap"><div class="top"><a class="back" href="index.html">← AprovaAI</a><span id="user" class="user"></span><button class="btn logout" onclick="logout()">Sair</button></div><div class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>Escolha o concurso</h1><p class="muted">Selecione qual concurso você quer estudar. Quando houver mais de um cargo/ênfase, você escolherá na próxima etapa.</p></div><div class="grid"><a class="card" href="ace_marica.html"><div class="icon">🦟</div><h2>ACE Maricá</h2><p class="muted">Agente de Combate às Endemias — Maricá/RJ.</p><span class="btn">Estudar ACE Maricá →</span></a><a class="card" href="transpetro_cargos.html"><div class="icon">⚓</div><h2>Transpetro</h2><p class="muted">Escolha a ênfase/cargo antes de entrar no ambiente de estudos.</p><span class="btn">Escolher cargo Transpetro →</span></a></div></div><script>const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');async function init(){const{data}=await sb.auth.getSession();if(!data.session){location.replace('index.html');return}user.textContent='Conta: '+(data.session.user.email||'')}async function logout(){await sb.auth.signOut();location.replace('index.html')}init()</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AprovaAI — Concursos</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{color:#fff;text-decoration:none;font-size:25px;font-weight:900}.brand b{color:var(--gold)}
+.account{display:flex;align-items:center;gap:10px}.user{font-size:13px;color:var(--muted)}
+.btn{display:inline-block;border:0;border-radius:10px;padding:11px 15px;background:var(--gold);color:#111;font-weight:800;text-decoration:none;cursor:pointer}.logout,.login{background:#2b3139;color:#fff;border:1px solid #434a54}.register{background:var(--gold);color:#111}
+.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515);margin-top:18px}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}h1{font-size:42px;margin:12px 0 10px}.muted{color:var(--muted);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px;transition:.2s;cursor:pointer}.card:hover{border-color:var(--gold);transform:translateY(-2px)}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.card .btn{margin-top:16px}
+@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}.top{align-items:flex-start}.account{flex-wrap:wrap;justify-content:flex-end}.user{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">Aprova<b>AI</b></a>
+<div id="account" class="account">
+<a class="btn login" href="login.html">🔐 Entrar</a>
+<a class="btn register" href="login.html">Criar conta</a>
+</div>
+</header>
+
+<section class="hero">
+<span class="tag">PLATAFORMA DE ESTUDOS</span>
+<h1>Escolha o concurso</h1>
+<p class="muted">Você pode visualizar todos os concursos sem fazer login. Para entrar em um ambiente de estudos, basta escolher o concurso; se não estiver autenticado, o AprovaAI levará você ao login e depois retornará automaticamente para o curso escolhido.</p>
+</section>
+
+<div class="grid" id="courses"></div>
+
+<p class="muted" style="margin-top:28px">Novos concursos podem ser adicionados aqui sem alterar o fluxo de autenticação.</p>
+</div>
+
+<script>
+const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
+
+// Para adicionar um novo concurso no futuro, basta incluir um item neste array.
+const courses=[
+ {icon:'🦟',name:'ACE Maricá',description:'Agente de Combate às Endemias — Maricá/RJ.',target:'ace_marica.html',button:'Estudar ACE Maricá →'},
+ {icon:'⚓',name:'Transpetro',description:'Escolha a ênfase/cargo antes de entrar no ambiente de estudos.',target:'transpetro_cargos.html',button:'Escolher cargo Transpetro →'}
+];
+
+function renderCourses(){
+ document.getElementById('courses').innerHTML=courses.map((c,i)=>`<div class="card" role="button" tabindex="0" onclick="openCourse(${i})" onkeydown="if(event.key==='Enter'||event.key===' ')openCourse(${i})"><div class="icon">${c.icon}</div><h2>${c.name}</h2><p class="muted">${c.description}</p><span class="btn">${c.button}</span></div>`).join('');
+}
+
+async function openCourse(index){
+ const course=courses[index];
+ if(!course)return;
+ const {data}=await sb.auth.getSession();
+ if(data.session){location.href=course.target;return}
+ sessionStorage.setItem('aprovaai_redirect',course.target);
+ location.href='login.html';
+}
+
+async function init(){
+ renderCourses();
+ const {data}=await sb.auth.getSession();
+ if(data.session){
+   account.innerHTML=`<span class="user">Conta: ${data.session.user.email||''}</span><button class="btn logout" onclick="logout()">Sair</button>`;
+ }
+}
+async function logout(){await sb.auth.signOut();location.reload()}
+init();
+</script>
+</body>
+</html>
