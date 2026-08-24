@@ -1,1 +1,46 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AprovaAI — Transpetro | Cargos</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>body{margin:0;background:#0d1014;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1250px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.back{color:#ddd;text-decoration:none}.back:hover{color:#e4c64a}.hero{background:linear-gradient(135deg,#171b21,#3d3515);border:1px solid #3b3b31;border-radius:20px;padding:28px;margin-top:15px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.card{background:#181d23;border:1px solid #303740;border-radius:16px;padding:18px;min-height:170px;display:flex;flex-direction:column}.card:hover{border-color:#e4c64a}.muted{color:#a6adb7;line-height:1.5}.tag{color:#f2d86b}.btn{margin-top:auto;background:#e4c64a;color:#111;border:0;border-radius:9px;padding:11px;font-weight:800;text-decoration:none;text-align:center;cursor:pointer}.soon{background:#2b3139;color:#ccc}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.grid{grid-template-columns:1fr}.wrap{padding:15px}.top{flex-wrap:wrap}.homeBtn{width:100%}}</style></head><body><div class="wrap"><div class="top"><a class="back" href="index.html"><b>AprovaAI</b></a><a class="btn homeBtn" href="index.html">🏠 Voltar aos concursos</a></div><div class="hero"><span class="tag">TRANSPETRO • PSP/TERRA/NÍVEL SUPERIOR • 2026.4</span><h1>Escolha o cargo que você deseja estudar</h1><p class="muted">O edital tem um único cargo de Profissional Transpetro de Nível Superior — Júnior, dividido em 33 ênfases. Escolha a ênfase para entrar no ambiente correspondente.</p><p class="muted">57 vagas imediatas • 687 oportunidades com cadastro de reserva • Fundação Cesgranrio</p></div><div class="grid" id="grid"></div></div><script>const cargos=[['1','Administração','RJ / Sul'],['2','Advocacia','RJ'],['3','Análise Ambiental','RJ'],['4','Análise de Sistemas — Infraestrutura','RJ'],['5','Análise de Sistemas — Processos de Negócios','RJ'],['6','Análise de Sistemas — SAP','RJ'],['7','Análise de Sistemas — Segurança Cibernética e da Informação','RJ'],['8','Ciência de Dados','RJ'],['9','Comercialização e Logística — Comércio e Suprimentos','RJ'],['10','Comercialização e Logística — Transporte Marítimo','RJ'],['11','Comunicação Social — Jornalismo','RJ'],['12','Comunicação Social — Relações Públicas','RJ / Sul'],['13','Contabilidade (NS)','RJ'],['14','Enfermagem do Trabalho','RJ'],['15','Engenharia Ambiental','RJ'],['16','Engenharia Civil','RJ / SP / Sul'],['17','Engenharia de Automação','RJ'],['18','Engenharia de Inspeção','RJ'],['19','Engenharia de Produção','RJ / SP'],['20','Engenharia de Segurança de Processo','RJ'],['21','Engenharia de Segurança do Trabalho','Norte/Nordeste / RJ'],['22','Engenharia de Telecomunicações','RJ'],['23','Engenharia Elétrica','RJ / SP'],['24','Engenharia Geotécnica','RJ / SP'],['25','Engenharia Mecânica','Norte/Nordeste / RJ / SP / Sul'],['26','Engenharia Naval','RJ'],['27','Engenharia Química','RJ'],['28','Medicina do Trabalho','Norte/Nordeste / RJ / SP'],['29','Nutrição','RJ'],['30','Odontologia','RJ'],['31','Psicologia','RJ'],['32','Química','RJ'],['33','Serviço Social','RJ']];function estudar(){sb.auth.getSession().then(({data})=>{if(data.session){location.href='transpetro.html'}else{sessionStorage.setItem('aprovaai_redirect','transpetro.html');location.href='login.html'}})}const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');grid.innerHTML=cargos.map(c=>{const sap=c[0]==='6';return `<div class="card"><div class="muted">Ênfase ${c[0]}</div><h2>${c[1]}</h2><p class="muted">Polo: ${c[2]}<br>${sap?'Ambiente de estudo disponível com dinâmica completa.':'Conteúdo ainda em preparação.'}</p>${sap?`<button class="btn" onclick="estudar()">ESTUDAR →</button>`:`<button class="btn soon" onclick="alert('Este ambiente será disponibilizado depois.')">EM BREVE</button>`}</div>`}).join('');</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AprovaAI — Transpetro | Cargos</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{color:#fff;text-decoration:none;font-size:25px;font-weight:900}.brand b{color:var(--gold)}
+.btn{background:var(--gold);color:#111;border:0;border-radius:10px;padding:11px 15px;font-weight:800;text-decoration:none;cursor:pointer;display:inline-block}.back{color:#ddd;text-decoration:none}.back:hover{color:var(--gold)}
+.hero{background:linear-gradient(135deg,#171b21,#3d3515);border:1px solid #3b3b31;border-radius:20px;padding:28px;margin-top:18px}.tag{color:#f2d86b;font-weight:700;font-size:13px}.hero h1{margin:10px 0}.muted{color:var(--muted);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;min-height:210px;display:flex;flex-direction:column;transition:.2s}.card:hover{border-color:var(--gold);transform:translateY(-2px)}.number{color:var(--gold);font-size:13px;font-weight:800}.card h2{margin:10px 0 8px}.card .btn{margin-top:auto;text-align:center}
+@media(max-width:700px){.wrap{padding:16px}.grid{grid-template-columns:1fr}.top{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="brand" href="concursos.html">Aprova<b>AI</b></a><a class="btn" href="concursos.html">← Concursos</a></header>
+<section class="hero">
+<span class="tag">TRANSPETRO • NÍVEL SUPERIOR • 2026.4</span>
+<h1>Cargos desejados</h1>
+<p class="muted">Aqui aparecem somente os cargos/ênfases que você escolheu acompanhar. Para a Transpetro, o ambiente atualmente preparado é Análise de Sistemas — SAP.</p>
+</section>
+<div class="grid" id="grid"></div>
+</div>
+<script>
+const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
+
+// Cargos/ênfases desejados. Novos cargos podem ser adicionados aqui sem alterar o layout.
+const cargosDesejados=[
+ {numero:'6',nome:'Análise de Sistemas — SAP',polo:'RJ',descricao:'Ênfase 6 • Análise de Sistemas / SAP • Ambiente completo de questões e acompanhamento.'}
+];
+
+function estudar(cargo){
+ sb.auth.getSession().then(({data})=>{
+   if(data.session){location.href='transpetro.html';return}
+   sessionStorage.setItem('aprovaai_redirect','transpetro.html');
+   location.href='index.html';
+ });
+}
+
+grid.innerHTML=cargosDesejados.map((c,i)=>`<div class="card"><div class="number">ÊNFASE ${c.numero}</div><h2>${c.nome}</h2><p class="muted"><b>Polo:</b> ${c.polo}<br>${c.descricao}</p><button class="btn" onclick="estudar(${i})">ESTUDAR →</button></div>`).join('');
+</script>
+</body>
+</html>
