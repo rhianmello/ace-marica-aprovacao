@@ -1,0 +1,178 @@
+{
+  "concurso": "TRANSPETRO 2026",
+  "cargo": "Análise de Sistemas — SAP",
+  "banca": "Fundação Cesgranrio",
+  "fonte_matriz": "TRANSPETRO/matriz-simulados.md",
+  "questoes": [
+    {
+      "id": "TP-SAP-001",
+      "assunto": "ERP / SAP",
+      "subassunto": "ERP e integração empresarial",
+      "dificuldade": "médio",
+      "enunciado": "Em uma organização, diferentes áreas utilizam um sistema corporativo integrado no qual dados de processos de compras, estoque e finanças são compartilhados. Considerando a matriz de estudos da Transpetro, qual característica de ERP está mais diretamente representada nesse cenário?",
+      "alternativas": {
+        "A": "Isolamento dos sistemas de cada departamento.",
+        "B": "Base de dados e processos integrados entre áreas.",
+        "C": "Eliminação da necessidade de processos de negócio.",
+        "D": "Uso obrigatório de planilhas como fonte principal.",
+        "E": "Separação completa dos dados mestres por departamento."
+      },
+      "gabarito": "B",
+      "explicacao": "A matriz destaca integração empresarial, base de dados integrada, processos de negócio e centralização de informações como tópicos de ERP.",
+      "fonte": "Matriz Transpetro — F.1 ERP"
+    },
+    {
+      "id": "TP-SAP-002",
+      "assunto": "SAP",
+      "subassunto": "SAP ERP, ECC e S/4HANA",
+      "dificuldade": "médio",
+      "enunciado": "A matriz de estudos determina que questões sobre SAP devem diferenciar, quando necessário, SAP ERP, SAP ECC e SAP S/4HANA. Qual alternativa representa corretamente essa orientação de estudo?",
+      "alternativas": {
+        "A": "Os termos devem ser tratados como sinônimos em qualquer contexto.",
+        "B": "A distinção entre as plataformas pode ser relevante para a análise de uma questão.",
+        "C": "Somente transações do SAP PM devem ser cobradas.",
+        "D": "S/4HANA deve ser estudado apenas em Português.",
+        "E": "ECC e Fiori são módulos equivalentes."
+      },
+      "gabarito": "B",
+      "explicacao": "A matriz determina explicitamente que SAP ERP, SAP ECC, SAP S/4HANA, HANA, Fiori e BTP devem ser diferenciados quando necessário.",
+      "fonte": "Matriz Transpetro — F.2 SAP"
+    },
+    {
+      "id": "TP-SAP-003",
+      "assunto": "SAP PM",
+      "subassunto": "Transações e ordens",
+      "dificuldade": "médio",
+      "enunciado": "Na matriz de estudos, o conjunto IW31/IW32/IW33 está associado a qual objeto do SAP PM?",
+      "alternativas": {
+        "A": "Ordens.",
+        "B": "Notificações.",
+        "C": "Listas de ordens.",
+        "D": "Confirmações.",
+        "E": "Processos de faturamento."
+      },
+      "gabarito": "A",
+      "explicacao": "A matriz relaciona IW31/IW32/IW33 a ordens e IW21/IW22/IW23 a notificações.",
+      "fonte": "Matriz Transpetro — F.4 SAP PM"
+    },
+    {
+      "id": "TP-SAP-004",
+      "assunto": "SAP",
+      "subassunto": "Módulos",
+      "dificuldade": "fácil",
+      "enunciado": "Qual módulo da matriz está associado a materiais, compras, requisições, pedidos e estoque?",
+      "alternativas": {
+        "A": "FI",
+        "B": "CO",
+        "C": "MM",
+        "D": "SD",
+        "E": "HCM"
+      },
+      "gabarito": "C",
+      "explicacao": "Na matriz, MM — Materials Management inclui materiais, compras, requisições, pedidos, estoque, fornecedores e MRP.",
+      "fonte": "Matriz Transpetro — F.3 Módulos SAP"
+    },
+    {
+      "id": "TP-SAP-005",
+      "assunto": "SAP",
+      "subassunto": "Integração entre módulos",
+      "dificuldade": "médio",
+      "enunciado": "A matriz estabelece como tópico específico a integração PM x MM. Em termos de preparação, isso indica que o candidato deve estudar a relação entre manutenção e qual área?",
+      "alternativas": {
+        "A": "Gestão de materiais.",
+        "B": "Recursos humanos.",
+        "C": "Vendas e distribuição.",
+        "D": "Comunicação social.",
+        "E": "Contabilidade societária exclusivamente."
+      },
+      "gabarito": "A",
+      "explicacao": "MM é Materials Management e a matriz lista explicitamente PM x MM entre as integrações SAP.",
+      "fonte": "Matriz Transpetro — F.5 Integração SAP"
+    },
+    {
+      "id": "TP-SAP-006",
+      "assunto": "Processos de Negócio",
+      "subassunto": "SAP e processos ponta a ponta",
+      "dificuldade": "médio",
+      "enunciado": "Qual conjunto contém somente processos de negócio explicitamente previstos na matriz SAP?",
+      "alternativas": {
+        "A": "Procure-to-Pay, Order-to-Cash e Plan-to-Produce.",
+        "B": "Hire-to-Code, Code-to-Test e Test-to-Deploy.",
+        "C": "Cash-to-Cash, Plan-to-Hire e Build-to-Run.",
+        "D": "Design-to-Print, Print-to-Mail e Mail-to-Archive.",
+        "E": "Ticket-to-Meeting, Meeting-to-Report e Report-to-Email."
+      },
+      "gabarito": "A",
+      "explicacao": "A matriz lista Procure-to-Pay, Order-to-Cash, Plan-to-Produce, Record-to-Report, Hire-to-Retire e outros processos.",
+      "fonte": "Matriz Transpetro — F.6 SAP e processos de negócio"
+    },
+    {
+      "id": "TP-SAP-007",
+      "assunto": "Engenharia de Software",
+      "subassunto": "Scrum",
+      "dificuldade": "médio",
+      "enunciado": "Qual conjunto de elementos aparece explicitamente na matriz como parte do estudo de Scrum?",
+      "alternativas": {
+        "A": "Product Goal, Sprint Goal e Definition of Done.",
+        "B": "WBS, EAP e caminho crítico como únicos elementos.",
+        "C": "Pool, Lane e gateway exclusivo.",
+        "D": "Fato, dimensão e granularidade.",
+        "E": "Commit, rollback e isolamento."
+      },
+      "gabarito": "A",
+      "explicacao": "A matriz de Engenharia de Software lista Product Goal, Sprint Goal, Definition of Done, Product Backlog, Sprint Backlog e outros elementos do Scrum.",
+      "fonte": "Matriz Transpetro — D.3 Metodologias Ágeis"
+    },
+    {
+      "id": "TP-SAP-008",
+      "assunto": "BPMN",
+      "subassunto": "Elementos BPMN 2.0",
+      "dificuldade": "fácil",
+      "enunciado": "Qual alternativa contém somente elementos listados na matriz para BPMN 2.0?",
+      "alternativas": {
+        "A": "Eventos, atividades e gateways.",
+        "B": "Tabelas fato, dimensões e medidas.",
+        "C": "Sprint, Increment e Product Goal.",
+        "D": "Commit, rollback e transação.",
+        "E": "Centro de custo, ordem interna e razão."
+      },
+      "gabarito": "A",
+      "explicacao": "A matriz lista eventos, atividades, tarefas, subprocessos, gateways, fluxos, pools, lanes e outros elementos BPMN.",
+      "fonte": "Matriz Transpetro — E.2 BPMN 2.0"
+    },
+    {
+      "id": "TP-SAP-009",
+      "assunto": "Banco de Dados",
+      "subassunto": "OLTP x OLAP",
+      "dificuldade": "médio",
+      "enunciado": "Na matriz de estudos, OLTP e OLAP aparecem como conceitos que devem ser comparados quanto a finalidade, consultas, atualização, desempenho e usuários. Qual estratégia de estudo está mais alinhada a essa orientação?",
+      "alternativas": {
+        "A": "Memorizar apenas as siglas, sem comparar características.",
+        "B": "Estudar as diferenças de finalidade e características entre os dois ambientes.",
+        "C": "Tratar os dois conceitos como equivalentes.",
+        "D": "Estudar OLAP apenas no contexto de SAP PM.",
+        "E": "Excluir o tema porque pertence somente a Administração."
+      },
+      "gabarito": "B",
+      "explicacao": "A matriz explicitamente prevê a comparação entre OLTP e OLAP por finalidade, consultas, atualização, desempenho, usuários e outros critérios.",
+      "fonte": "Matriz Transpetro — C.1.5 OLAP x OLTP"
+    },
+    {
+      "id": "TP-SAP-010",
+      "assunto": "Gestão de Projetos",
+      "subassunto": "PMBOK 7",
+      "dificuldade": "médio",
+      "enunciado": "Qual conjunto pertence aos domínios de desempenho do PMBOK 7 listados na matriz?",
+      "alternativas": {
+        "A": "Stakeholders, equipe, planejamento, entrega e medição.",
+        "B": "Compras, vendas, faturamento, estoque e razão.",
+        "C": "Eventos, gateways, pools, lanes e tarefas exclusivamente.",
+        "D": "Fatos, dimensões, medidas, cubos e granularidade.",
+        "E": "Product Owner, Scrum Master, Sprint e Increment."
+      },
+      "gabarito": "A",
+      "explicacao": "A matriz lista oito domínios de desempenho, incluindo stakeholders, equipe, planejamento, trabalho, entrega, medição e incerteza.",
+      "fonte": "Matriz Transpetro — B.3 PMBOK 7ª edição"
+    }
+  ]
+}
