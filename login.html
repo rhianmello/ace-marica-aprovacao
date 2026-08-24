@@ -1,30 +1,5 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AprovaAI — Login</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-body{margin:0;background:#0d1014;color:#fff;font-family:Arial,sans-serif;display:grid;place-items:center;min-height:100vh;padding:18px}.box{width:min(460px,100%);background:#181d23;border:1px solid #303740;border-radius:20px;padding:28px}.logo{font-size:30px;font-weight:900}.logo b{color:#e4c64a}.field{margin:12px 0}.field label{display:block;margin-bottom:6px}.field input{width:100%;box-sizing:border-box;padding:12px;background:#0e1115;color:#fff;border:1px solid #343b45;border-radius:10px}.btn{border:0;border-radius:10px;padding:12px 16px;background:#e4c64a;color:#111;font-weight:800;cursor:pointer}.btn.sec{background:#2b3139;color:#fff}.muted{color:#a6adb7;line-height:1.5}.msg{margin-top:14px}.row{display:flex;gap:10px;flex-wrap:wrap}
-</style>
-</head>
-<body>
-<div class="box">
-<div class="logo">Aprova<b>AI</b></div>
-<h1>Entrar no AprovaAI</h1>
-<p class="muted">Faça login ou crie sua conta. Depois da autenticação, você será levado ao curso que escolheu.</p>
-<div class="field"><label>E-mail</label><input id="email" type="email" autocomplete="email"></div>
-<div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password"></div>
-<div class="row"><button class="btn" onclick="login()">Entrar</button><button class="btn sec" onclick="signup()">Criar conta</button><button class="btn sec" onclick="back()">Voltar</button></div>
-<div id="msg" class="msg muted"></div>
-</div>
-<script>
-const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
-function destination(){const p=sessionStorage.getItem('aprovaai_redirect');sessionStorage.removeItem('aprovaai_redirect');return p||'concursos.html'}
-async function login(){msg.textContent='Entrando...';const{error}=await sb.auth.signInWithPassword({email:email.value,password:pass.value});if(error){msg.textContent=error.message;return}location.replace(destination())}
-async function signup(){msg.textContent='Criando conta...';const{error}=await sb.auth.signUp({email:email.value,password:pass.value});if(error){msg.textContent=error.message;return}msg.textContent='Conta criada. Verifique seu e-mail se o Supabase solicitar confirmação. Depois faça login.'}
-function back(){location.href='concursos.html'}
-sb.auth.getSession().then(({data})=>{if(data.session)location.replace(destination())})
-</script>
-</body>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=index.html"><title>AprovaAI — Login</title></head>
+<body><script>location.replace('index.html');</script><p>Redirecionando para o login do AprovaAI...</p></body>
 </html>
