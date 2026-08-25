@@ -2,7 +2,7 @@
 // Questões autorais de treino; não são questões oficiais da Cesgranrio.
 (function(){
 /* Carrega os bancos temáticos antes da inicialização do transpetro.html. */
-['./terca_engenharia_bpmn.js','./quinta_sexta_sabado.js'].forEach(src=>document.write('<script src="'+src+'"><\\/script>'));
+['./TRANSPETRO/banco-questoes/terca_engenharia_bpmn.js','./TRANSPETRO/banco-questoes/quinta_sexta_sabado.js'].forEach(src=>document.write('<script src="'+src+'"><\/script>'));
 const F=[
 ['SAP PM','Ordem de manutenção','Uma ordem de manutenção é usada para planejar, executar e controlar trabalho em ativos técnicos.','planejar, executar e controlar o trabalho de manutenção','registrar somente clientes','substituir o cadastro de materiais','emitir somente notas fiscais','criar usuários SAP','A','SAP Help Portal — Maintenance Order'],
 ['SAP PM','IW31/IW32/IW33','No SAP GUI tradicional, IW31, IW32 e IW33 estão associados respectivamente a criar, alterar e exibir ordens de manutenção.','criar, alterar e exibir ordens de manutenção','criar, alterar e exibir notificações','criar, alterar e exibir equipamentos','criar, alterar e exibir materiais','criar, alterar e exibir fornecedores','A','SAP Help Portal — Maintenance Order'],
