@@ -193,3 +193,36 @@ Fonte principal: `TRANSPETRO_2026_SAP_Matriz_Simulados.md` da Biblioteca do Chat
 ## Meta
 
 Banco próprio com 500+ SAP/ERP; 300+ Engenharia; 250+ PMBOK; 250+ Dados/BI; 200+ Processos/BPMN; 200+ IA/Data Mining; 150+ Administração/BSC; 150+ Português; 150+ Inglês; meta geral 2.000+ questões inéditas.
+
+## Atualização estratégica — 25/08/2026
+
+Foi criado o arquivo **`TRANSPETRO/plano-estudos-sap-2026.md`**, com a ordem de estudo e prioridade de 0–100 para cada bloco, baseada no conteúdo do Edital 04/2026 e na estratégia de preparação para a Cesgranrio.
+
+### Correção importante para o banco
+
+O edital da ênfase **Análise de Sistemas — SAP** deve ser tratado como fonte principal. A experiência do candidato em SAP PM é uma vantagem de compreensão, mas **SAP PM não deve ser tratado como substituto dos módulos explicitamente cobrados no edital**, especialmente FI/CO, MM/SD, HCM, SAP-BI e integrações.
+
+A partir deste ponto, a geração de questões deve seguir prioritariamente o novo plano de estudos, especialmente:
+
+1. ERP / SAP — 100
+2. FI / CO — 98
+3. Integrações SAP — 98
+4. MM / SD — 94
+5. SAP-BI — 90
+6. Modelagem / Requisitos — 88
+7. BPMN / ARIS-EPC — 88
+8. UML / Processo Unificado — 84
+9. ETL / DW / Data Mart — 82
+10. OLAP — 80
+11. PMBOK / Agile — 78
+12. Mineração de dados — 72
+13. BSC — 65
+14. HCM — 62
+15. Report Writer/Painter — 60
+16. Autorizações SAP — 58
+
+**Arquivo de referência:** `TRANSPETRO/plano-estudos-sap-2026.md`
+
+## Fonte do conteúdo oficial
+
+Edital nº 04 — TRANSPETRO/PSP/TERRA/NÍVEL SUPERIOR-2026.4, ênfase 6 — Análise de Sistemas - SAP. A priorização 0–100 é estratégica e não representa peso oficial da banca.
