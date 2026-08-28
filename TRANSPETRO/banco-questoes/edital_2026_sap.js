@@ -22,3 +22,22 @@ window.TRANSPETRO_EDITAL_2026=[
 ];
 window.TRANSPETRO_EDITAL_2026=Q;
 window.TRANSPETRO_CURADO=(window.TRANSPETRO_CURADO||[]).concat(Q);
+
+// Botão para zerar somente o histórico/desempenho do dashboard.
+document.addEventListener('DOMContentLoaded',()=>{
+  const nav=document.querySelector('.nav');
+  if(!nav || document.getElementById('reset-dashboard')) return;
+  const b=document.createElement('button');
+  b.id='reset-dashboard';
+  b.className='btn';
+  b.textContent='🗑️ Zerar dashboard';
+  b.style.background='#6b2525';
+  b.style.color='#fff';
+  b.onclick=()=>{
+    if(confirm('Zerar o dashboard? Isso apagará seu histórico de questões, acertos e erros neste navegador. O banco de questões não será apagado.')){
+      localStorage.removeItem('aprovaai_transpetro_history_v3');
+      location.reload();
+    }
+  };
+  nav.appendChild(b);
+});
