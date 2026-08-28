@@ -1,12 +1,19 @@
-// AprovaAI Transpetro 2026 — carregador da matriz de Linguagens
-// Carrega o banco de Português e Inglês sem quebrar o HTML da página.
+// AprovaAI Transpetro 2026 — carregador complementar
+// Mantém a ordem de carregamento: específicos expandidos -> Português/Inglês.
 (function(){
-  var src='./TRANSPETRO/banco-questoes/edital_2026_linguagens_gerado.js';
+  var specific='./TRANSPETRO/banco-questoes/especificos_2026_expansao.js';
+  var languages='./TRANSPETRO/banco-questoes/edital_2026_linguagens_gerado.js';
   if(document.readyState==='loading') {
-    document.write('<script src="'+src+'"></script>');
+    document.write('<script src="'+specific+'"></script>');
+    document.write('<script src="'+languages+'"></script>');
   } else {
     var s=document.createElement('script');
-    s.src=src;
+    s.src=specific;
+    s.onload=function(){
+      var l=document.createElement('script');
+      l.src=languages;
+      document.head.appendChild(l);
+    };
     document.head.appendChild(s);
   }
 })();
