@@ -8,55 +8,43 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: organizar-aprovaai-main
+  cancel-in-progress: true
+
 jobs:
   organize:
     if: github.event.head_commit.message != 'Organiza AprovaAI'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Separar ACE e criar página inicial
+      - name: Garantir página inicial
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
-
           index = Path('index.html')
-          ace = Path('ace_marica.html')
           content = index.read_text(encoding='utf-8')
-
-          # Se o index ainda for o app completo do ACE, preserve-o em ace_marica.html.
-          if 'ACE Maricá/RJ' in content and 'id="home"' in content and 'function loadAll' in content:
-              content = content.replace('<title>AprovaAI - ACE Maricá/RJ</title>', '<title>AprovaAI — ACE Maricá/RJ</title>')
-              content = content.replace('<div class="logo">Aprova<b>AI</b></div>', '<a class="logo" href="index.html" title="Voltar para o início">Aprova<b>AI</b></a>')
-              content = content.replace('.logo{font-size:24px;font-weight:800;margin:10px}', '.logo{display:block;font-size:24px;font-weight:800;margin:10px;text-decoration:none;color:#f5f5f5;cursor:pointer}.logo:hover{filter:brightness(1.2)}')
-              ace.write_text(content, encoding='utf-8')
-
-          home = '''<!doctype html>
-          <html lang="pt-BR">
-          <head>
-          <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-          <title>AprovaAI — Concursos</title>
-          <style>
-          body{margin:0;background:#0d1014;color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:32px}.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515)}h1{font-size:42px;margin:0 0 10px}.muted{color:#a6adb7}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:#181d23;border:1px solid #303740;border-radius:18px;padding:25px;transition:.2s}.card:hover{border-color:#e4c64a;transform:translateY(-2px)}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}.icon{font-size:40px;margin:15px 0 5px}.card h2{margin:5px 0 10px}.btn{display:inline-block;margin-top:16px;background:#e4c64a;color:#111;padding:11px 15px;border-radius:10px;font-weight:bold}@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}}
-          </style>
-          </head>
-          <body><div class="wrap">
-          <div class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>AprovaAI</h1><p class="muted">Escolha o concurso que você quer estudar.</p></div>
-          <div class="grid">
-          <a class="card" href="ace_marica.html"><div class="icon">🦟</div><h2>ACE Maricá</h2><p class="muted">Agente de Combate às Endemias — Maricá/RJ.</p><span class="btn">Estudar ACE Maricá →</span></a>
-          <a class="card" href="transpetro.html"><div class="icon">⚓</div><h2>Transpetro</h2><p class="muted">Ênfase 6 — Análise de Sistemas / SAP.</p><span class="btn">Estudar Transpetro →</span></a>
-          </div><p class="muted" style="margin-top:28px">Novos concursos poderão ser adicionados aqui.</p>
-          </div></body></html>'''
-          index.write_text(home, encoding='utf-8')
+          card = '<a class="card" href="inspetor_eletrica.html"><div class="icon">⚡</div><h2>Inspetor de Elétrica</h2><p class="muted">Inspetor / Elétrica Nível 1 — elétrica industrial, inspeção, metrologia, qualidade e segurança.</p><span class="btn">Estudar Inspetor de Elétrica →</span></a>'
+          if 'href="inspetor_eletrica.html"' not in content:
+              marker = '</div><p class="muted" style="margin-top:28px">'
+              if marker in content:
+                  content = content.replace(marker, card + '</div><p class="muted" style="margin-top:28px">', 1)
+              elif '</div></body></html>' in content:
+                  content = content.replace('</div></body></html>', card + '</div></body></html>', 1)
+              else:
+                  raise SystemExit('index.html não está no formato esperado')
+              index.write_text(content, encoding='utf-8')
           PY
 
       - name: Commitar organização
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html ace_marica.html
-          git diff --cached --quiet || git commit -m "Organiza AprovaAI"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git pull --rebase origin main
+          git commit -m "Organiza AprovaAI"
           git push
