@@ -5,46 +5,40 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
   group: organizar-aprovaai-main
   cancel-in-progress: true
 
 jobs:
-  organize:
-    if: github.event.head_commit.message != 'Organiza AprovaAI'
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Garantir página inicial
+      - name: Validar estrutura do site
         run: |
           python - <<'PY'
           from pathlib import Path
-          index = Path('index.html')
-          content = index.read_text(encoding='utf-8')
-          card = '<a class="card" href="inspetor_eletrica.html"><div class="icon">⚡</div><h2>Inspetor de Elétrica</h2><p class="muted">Inspetor / Elétrica Nível 1 — elétrica industrial, inspeção, metrologia, qualidade e segurança.</p><span class="btn">Estudar Inspetor de Elétrica →</span></a>'
-          if 'href="inspetor_eletrica.html"' not in content:
-              marker = '</div><p class="muted" style="margin-top:28px">'
-              if marker in content:
-                  content = content.replace(marker, card + '</div><p class="muted" style="margin-top:28px">', 1)
-              elif '</div></body></html>' in content:
-                  content = content.replace('</div></body></html>', card + '</div></body></html>', 1)
-              else:
-                  raise SystemExit('index.html não está no formato esperado')
-              index.write_text(content, encoding='utf-8')
-          PY
+          required = [
+              'index.html',
+              'transpetro.html',
+              'inspetor_eletrica.html',
+              'INSPETOR_ELETRICA/banco-questoes/inspetor_eletrica_banco.js',
+          ]
+          missing = [p for p in required if not Path(p).is_file()]
+          if missing:
+              raise SystemExit('Arquivos obrigatórios ausentes: ' + ', '.join(missing))
 
-      - name: Commitar organização
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git diff --cached --quiet && exit 0
-          git pull --rebase origin main
-          git commit -m "Organiza AprovaAI"
-          git push
+          index = Path('index.html').read_text(encoding='utf-8')
+          if 'href="inspetor_eletrica.html"' not in index:
+              raise SystemExit('O card do Inspetor de Elétrica não está no index.html')
+
+          bank = Path('INSPETOR_ELETRICA/banco-questoes/inspetor_eletrica_banco.js').read_text(encoding='utf-8')
+          if 'INSPETOR_ELETRICA_BANK' not in bank:
+              raise SystemExit('Banco de questões do Inspetor não exporta INSPETOR_ELETRICA_BANK')
+
+          print('OK: estrutura do AprovaAI validada.')
+          PY
