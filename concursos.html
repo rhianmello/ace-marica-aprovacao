@@ -5,33 +5,35 @@
 <title>AprovaAI — Concursos</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7}
+:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7;--green:#50d0bd}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:28px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{color:#fff;text-decoration:none;font-size:27px;font-weight:900}.brand b{color:var(--gold)}
 .account{display:flex;align-items:center;gap:10px}.user{font-size:13px;color:var(--muted)}
 .btn{display:inline-block;border:0;border-radius:10px;padding:11px 15px;background:var(--gold);color:#111;font-weight:800;text-decoration:none;cursor:pointer}.logout{background:#2b3139;color:#fff;border:1px solid #434a54}.login{background:#2b3139;color:#fff;border:1px solid #434a54}
 .hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515);margin-top:20px}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}h1{font-size:42px;margin:12px 0 10px}.muted{color:var(--muted);line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:block;text-decoration:none;color:#fff;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px;transition:.2s;cursor:pointer}.card:hover{border-color:var(--gold);transform:translateY(-2px)}.icon{font-size:40px;margin:10px 0}.card h2{margin:5px 0 10px}.card .btn{margin-top:16px}
-@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}.top{align-items:flex-start}.account{flex-wrap:wrap;justify-content:flex-end}.user{display:none}}
+.auth{margin-top:18px;padding:14px;background:#151a20;border:1px solid var(--line);border-radius:14px;display:flex;gap:10px;align-items:center;justify-content:space-between}.auth .hint{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}.card{display:flex;flex-direction:column;min-height:250px;text-decoration:none;color:#fff;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px;transition:.2s;cursor:pointer}.card:hover{border-color:var(--gold);transform:translateY(-2px)}.icon{font-size:40px;margin:10px 0}.card h2{margin:5px 0 10px}.card .btn{margin-top:auto;align-self:flex-start}.locked{opacity:.75}.mini{font-size:12px;color:var(--muted);margin-top:10px}
+@media(max-width:700px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}.top{align-items:flex-start}.auth{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header class="top"><a class="brand" href="index.html">Aprova<b>AI</b></a><div id="account" class="account"><a class="btn login" href="index.html">🔐 Entrar</a><a class="btn" href="index.html">Criar conta</a></div></header>
-<section class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>Escolha o concurso</h1><p class="muted">Página 2: escolha o concurso que deseja estudar. O login é feito na página inicial; depois você volta automaticamente para o caminho escolhido.</p></section>
+<header class="top"><a class="brand" href="concursos.html">Aprova<b>AI</b></a><div id="account" class="account"></div></header>
+<section class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>Escolha o concurso</h1><p class="muted">Entre na sua conta e escolha a prova ou trilha que deseja estudar.</p></section>
+<div id="auth" class="auth"></div>
 <div class="grid" id="courses"></div>
 </div>
 <script>
 const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
 const courses=[
  {icon:'🦟',name:'ACE Maricá',description:'Agente de Combate às Endemias — Maricá/RJ.',target:'ace_marica.html',button:'Estudar ACE Maricá →'},
- {icon:'⚓',name:'Transpetro',description:'Selecione um dos cargos/ênfases desejados para estudar.',target:'transpetro_cargos.html',button:'Ver cargos desejados →'}
+ {icon:'⚓',name:'Transpetro',description:'Acesse a seleção de cargos e trilhas disponíveis.',target:'transpetro_cargos.html',button:'Ver cargos e trilhas →'}
 ];
-function renderCourses(){coursesEl.innerHTML=courses.map((c,i)=>`<div class="card" role="button" tabindex="0" onclick="openCourse(${i})" onkeydown="if(event.key==='Enter'||event.key===' ')openCourse(${i})"><div class="icon">${c.icon}</div><h2>${c.name}</h2><p class="muted">${c.description}</p><span class="btn">${c.button}</span></div>`).join('')}
-async function openCourse(index){const course=courses[index];if(!course)return;const{data}=await sb.auth.getSession();if(data.session){location.href=course.target;return}sessionStorage.setItem('aprovaai_redirect',course.target);location.href='index.html'}
-async function init(){renderCourses();const{data}=await sb.auth.getSession();if(data.session){account.innerHTML=`<span class="user">${data.session.user.email||''}</span><button class="btn logout" onclick="logout()">Sair</button>`}}
+function renderCourses(){const logged=!!window.currentSession;coursesEl.innerHTML=courses.map((c,i)=>`<div class="card ${logged?'':'locked'}" role="button" tabindex="0" onclick="openCourse(${i})" onkeydown="if(event.key==='Enter'||event.key===' ')openCourse(${i})"><div class="icon">${c.icon}</div><h2>${c.name}</h2><p class="muted">${c.description}</p><span class="btn">${c.button}</span>${!logged?'<div class="mini">🔒 Faça login para entrar</div>':''}</div>`).join('')}
+async function openCourse(index){const course=courses[index];if(!course)return;const{data}=await sb.auth.getSession();if(data.session){location.href=course.target;return}sessionStorage.setItem('ap_target',course.target);location.href='login.html'}
+async function init(){const{data}=await sb.auth.getSession();window.currentSession=data.session;account.innerHTML=data.session?`<span class="user">${data.session.user.email||''}</span><button class="btn logout" onclick="logout()">Sair</button>`:`<a class="btn login" href="login.html">🔐 Entrar</a><a class="btn" href="login.html?cadastro=1">Criar conta</a>`;auth.innerHTML=data.session?'<div class="hint">Você está conectado. Escolha uma trilha abaixo para continuar.</div>':'<div class="hint">Você pode visualizar as opções, mas precisa estar autenticado para entrar em um ambiente de estudos.</div><a class="btn" href="login.html">Entrar no AprovaAI</a>';renderCourses()}
 async function logout(){await sb.auth.signOut();location.reload()}
-const coursesEl=document.getElementById('courses');init();
+const coursesEl=document.getElementById('courses'),account=document.getElementById('account'),auth=document.getElementById('auth');init();
 </script>
 </body>
 </html>
