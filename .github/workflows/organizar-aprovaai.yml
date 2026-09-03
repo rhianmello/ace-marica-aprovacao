@@ -24,21 +24,48 @@ jobs:
           from pathlib import Path
           required = [
               'index.html',
+              'concursos.html',
+              'login.html',
+              'transpetro_cargos.html',
               'transpetro.html',
               'inspetor_eletrica.html',
               'INSPETOR_ELETRICA/banco-questoes/inspetor_eletrica_banco.js',
+              'INSPETOR_ELETRICA/banco-questoes/inspetor_eletrica_banco_geral.js',
+              'INSPETOR_ELETRICA/inspetor_eletrica_expansao.js',
+              'INSPETOR_ELETRICA/plano_estudo_detalhado.js',
           ]
           missing = [p for p in required if not Path(p).is_file()]
           if missing:
               raise SystemExit('Arquivos obrigatórios ausentes: ' + ', '.join(missing))
 
           index = Path('index.html').read_text(encoding='utf-8')
-          if 'href="inspetor_eletrica.html"' not in index:
-              raise SystemExit('O card do Inspetor de Elétrica não está no index.html')
+          concursos = Path('concursos.html').read_text(encoding='utf-8')
+          cargos = Path('transpetro_cargos.html').read_text(encoding='utf-8')
+          inspector = Path('inspetor_eletrica.html').read_text(encoding='utf-8')
 
-          bank = Path('INSPETOR_ELETRICA/banco-questoes/inspetor_eletrica_banco.js').read_text(encoding='utf-8')
-          if 'INSPETOR_ELETRICA_BANK' not in bank:
-              raise SystemExit('Banco de questões do Inspetor não exporta INSPETOR_ELETRICA_BANK')
+          if "concursos.html" not in index:
+              raise SystemExit('index.html não redireciona para concursos.html')
+          if "login.html" not in concursos:
+              raise SystemExit('concursos.html não possui entrada de autenticação')
+          if "transpetro_cargos.html" not in concursos:
+              raise SystemExit('concursos.html não aponta para a seleção da Transpetro')
+          if "transpetro.html" not in cargos:
+              raise SystemExit('transpetro_cargos.html não possui a trilha SAP')
+          if "inspetor_eletrica.html" not in cargos:
+              raise SystemExit('transpetro_cargos.html não possui a trilha Inspetor de Elétrica')
+          if "inspetor_eletrica_expansao.js" not in inspector:
+              raise SystemExit('inspetor_eletrica.html não carrega o banco expandido')
+          if "plano_estudo_detalhado.js" not in inspector:
+              raise SystemExit('inspetor_eletrica.html não carrega o plano detalhado')
 
-          print('OK: estrutura do AprovaAI validada.')
+          for p in required[6:8]:
+              text = Path(p).read_text(encoding='utf-8')
+              if 'INSPETOR_ELETRICA' not in text:
+                  raise SystemExit(f'{p} não exporta o banco esperado')
+
+          plano = Path('INSPETOR_ELETRICA/plano_estudo_detalhado.js').read_text(encoding='utf-8')
+          if 'window.INSPETOR_PLANO_DETALHADO' not in plano:
+              raise SystemExit('Plano detalhado não exporta INSPETOR_PLANO_DETALHADO')
+
+          print('OK: nova hierarquia do AprovaAI validada.')
           PY
