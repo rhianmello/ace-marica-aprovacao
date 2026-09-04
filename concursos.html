@@ -1,1 +1,187 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ProvaNorte — Concursos</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="brand.js"></script><style>:root{--bg:#0d1014;--panel:#181d23;--line:#303740;--gold:#e4c64a;--muted:#a6adb7;--ok:#8be3b7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{color:#fff;text-decoration:none;font-size:27px;font-weight:900}.brand b{color:var(--gold)}.account{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.user{font-size:13px;color:var(--muted)}.btn{display:inline-block;border:0;border-radius:10px;padding:11px 15px;background:var(--gold);color:#111;font-weight:800;text-decoration:none;cursor:pointer}.dark{background:#2b3139;color:#fff;border:1px solid #434a54}.admin{background:#302a12;color:#f2d86b;border:1px solid #6b5a1c}.hero{padding:35px;border:1px solid #343b45;border-radius:22px;background:linear-gradient(135deg,#171b21,#3d3515);margin-top:20px}.tag{display:inline-block;padding:6px 10px;border-radius:99px;background:#2a2511;color:#f2d86b;border:1px solid #51451b;font-size:12px;font-weight:bold}h1{font-size:42px;margin:12px 0 10px}.muted{color:var(--muted);line-height:1.5}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}.card{display:flex;flex-direction:column;min-height:250px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px}.icon{font-size:40px;margin:10px 0}.card h2{margin:5px 0 10px}.actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}.mini{font-size:12px;color:var(--muted);margin-top:10px}.freebox{margin-top:18px;padding:20px;border:1px solid #51451b;border-radius:16px;background:#191710;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.freebox strong{color:#f2d86b}@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.wrap{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:32px}.top{align-items:flex-start;flex-wrap:wrap}}</style></head><body><div class="wrap"><header class="top"><a class="brand" href="concursos.html">Prova<b>Norte</b></a><div id="account" class="account"></div></header><section class="hero"><span class="tag">PLATAFORMA DE ESTUDOS</span><h1>Escolha sua preparação</h1><p class="muted">Treine gratuitamente ou escolha um curso. Cada preparação possui acesso independente.</p><div class="freebox"><div><strong>🎯 Teste grátis</strong><br><span class="muted">Faça 3 questões aleatórias do curso que você escolher. Sem cadastro.</span></div><a class="btn" href="simulados-gratis.html">Fazer simulado grátis</a></div></section><div class="grid" id="courses"></div></div><script>const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');const courses=[{icon:'🦟',name:'ACE Maricá',description:'Agente de Combate às Endemias — Maricá/RJ.',target:'ace_marica.html',courseId:1},{icon:'⚓',name:'Análise de Sistemas — SAP',description:'Transpetro 2026 — Análise de Sistemas — SAP.',target:'transpetro.html',courseId:2},{icon:'⚡',name:'Inspetor de Elétrica — Nível 1',description:'Transpetro 2026 — Preparação para Inspetor de Elétrica Nível 1.',target:'inspetor_eletrica.html',courseId:3}];let session=null,access=new Set(),isAdmin=false;const coursesEl=document.getElementById('courses'),account=document.getElementById('account');async function init(){const{data}=await sb.auth.getSession();session=data.session;if(session){const{data:a}=await sb.rpc('is_admin');isAdmin=a===true;const{data:e}=await sb.from('user_courses').select('course_id,status,expires_at').eq('user_id',session.user.id).eq('status','active').gt('expires_at',new Date().toISOString());access=new Set((e||[]).map(x=>String(x.course_id)));account.innerHTML=`<span class="user">${session.user.email||''}</span>${isAdmin?'<a class="btn admin" href="admin-v2.html">⚙️ Painel ADM</a>':''}<button class="btn dark" onclick="logout()">Sair</button>`}else account.innerHTML='<a class="btn dark" href="login.html">🔐 Entrar</a><a class="btn" href="login.html?cadastro=1">Criar conta</a>';render()}function targetFor(c){if(!isAdmin)return c.target;if(c.courseId===2)return'transpetro.html';if(c.courseId===3)return'inspetor_eletrica.html';return c.target}function render(){coursesEl.innerHTML=courses.map(c=>{const has=isAdmin||access.has(String(c.courseId));let href=has?targetFor(c):`checkout.html?course=${c.courseId}`;return `<div class="card"><div class="icon">${c.icon}</div><h2>${c.name}</h2><p class="muted">${c.description}</p><div class="actions">${has?`<a class="btn" href="${href}">▶ Estudar</a>`:`<a class="btn" href="${href}">💳 Comprar — R$ 19,90</a>`}</div><div class="mini">${!session?'🔒 Entre para comprar ou estudar':has?(isAdmin?'🟢 Acesso administrativo':'🟢 Acesso liberado'):'🔒 Curso não liberado para esta conta'}</div></div>`}).join('')}async function logout(){await sb.auth.signOut();location.reload()}init();</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nós Passa — Concursos</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="brand.js"></script>
+<style>
+:root{
+  --bg:#050608;
+  --bg2:#090b0f;
+  --panel:#0d1015;
+  --panel2:#11151b;
+  --line:#20252d;
+  --line2:#2a3039;
+  --text:#f4f5f7;
+  --muted:#8d96a3;
+  --soft:#b7bec8;
+  --gold:#e2c45b;
+  --gold2:#9f8738;
+  --green:#46d6a0;
+  --shadow:0 18px 50px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 75% 8%,#15191f 0,#080a0e 30%,var(--bg) 62%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+a{color:inherit}
+.wrap{max-width:1320px;margin:auto;padding:30px 28px 55px}
+.layout{display:grid;grid-template-columns:325px minmax(0,1fr);gap:28px;align-items:start}
+.sidebar{position:sticky;top:18px}
+.brandbox{min-height:285px;padding:20px 12px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.logo-mark{width:78px;height:78px;border:1px solid var(--line2);border-radius:24px;background:linear-gradient(145deg,#1a1e24,#07090c);display:grid;place-items:center;box-shadow:var(--shadow);font-size:27px;font-weight:950;letter-spacing:-2px}
+.logo-mark span{color:var(--gold)}
+.brand{margin-top:18px;text-decoration:none;font-size:45px;line-height:.9;font-weight:950;letter-spacing:-2.5px}
+.brand b{color:var(--gold)}
+.slogan{margin:14px 0 0;color:#707986;text-transform:uppercase;letter-spacing:3px;font-size:10px;font-weight:800}
+.social{display:flex;gap:8px;margin-top:20px}
+.social span{width:38px;height:34px;border:1px solid var(--line2);border-radius:10px;display:grid;place-items:center;color:#8b94a0;font-size:13px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--line2);border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#11151b,#090b0f);box-shadow:var(--shadow)}
+.stat{padding:15px 6px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat strong{display:block;font-size:21px;letter-spacing:-1px;color:#f1f3f5}
+.stat:nth-child(2) strong{color:#c7ccd3}.stat:nth-child(3) strong{color:var(--green)}
+.stat small{display:block;color:#69717d;font-size:8px;text-transform:uppercase;letter-spacing:.8px;margin-top:5px;font-weight:800;line-height:1.3}
+.loginbar{margin-top:12px;padding:15px 16px;border:1px solid #244c40;border-radius:17px;background:linear-gradient(110deg,#081411,#0b1714);display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;color:#aeb7c0;font-size:12px}
+.loginbar strong{color:var(--green)}
+.loginbar .arrow{color:var(--green);font-size:20px}
+.contact{margin-top:28px}
+.section-label{display:flex;align-items:center;gap:10px;color:#6f7884;text-transform:uppercase;letter-spacing:2px;font-size:9px;font-weight:900;margin:0 0 11px 2px}
+.section-label:after{content:"";height:1px;background:var(--line);flex:1}
+.contact-card{border:1px solid var(--line2);border-radius:17px;overflow:hidden;background:var(--panel);box-shadow:var(--shadow)}
+.contact-art{height:105px;background:radial-gradient(circle at 50% 50%,#163624 0,#0b1611 40%,#07090b 75%);display:grid;place-items:center;font-size:54px}
+.contact-copy{padding:13px 15px 15px}.contact-copy strong{font-size:14px}.contact-copy p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.main{min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}
+.eyebrow{color:#6f7884;text-transform:uppercase;letter-spacing:2.5px;font-size:9px;font-weight:900}
+.account{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.user{font-size:11px;color:var(--muted);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid transparent;border-radius:11px;padding:10px 14px;background:var(--gold);color:#111;font-weight:900;text-decoration:none;cursor:pointer;font-size:12px}
+.dark{background:#171b21;color:#e9ebee;border-color:var(--line2)}
+.admin{background:#17150c;color:#efd878;border-color:#51451b}
+.hero{border:1px solid var(--line2);border-radius:24px;background:linear-gradient(135deg,#15181d 0%,#0c0f13 48%,#11100b 100%);padding:28px 30px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-140px;top:-180px;background:rgba(226,196,91,.06);filter:blur(5px)}
+.tag{display:inline-flex;padding:6px 10px;border-radius:99px;background:#17150d;color:#d8bd55;border:1px solid #51451b;font-size:9px;letter-spacing:1.5px;font-weight:900}
+h1{font-size:42px;line-height:1;margin:14px 0 9px;letter-spacing:-2px;max-width:650px}.hero p{max-width:650px}
+.muted{color:var(--muted);line-height:1.55}
+.hero-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:22px}
+.freebox{display:flex;align-items:center;gap:14px}.free-icon{width:43px;height:43px;border:1px solid #51451b;border-radius:13px;background:#191710;display:grid;place-items:center}.freebox strong{font-size:13px}.freebox .mini{margin-top:2px}
+.mini{font-size:10px;color:var(--muted)}
+.section{margin-top:27px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:12px}.section-head h2{margin:0;font-size:14px;text-transform:uppercase;letter-spacing:2.2px}.section-head p{margin:0;color:#68717d;font-size:10px}
+.platform-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+.platform{min-height:132px;border:1px solid var(--line2);border-radius:17px;background:linear-gradient(145deg,#11151a,#090b0f);padding:16px;position:relative;overflow:hidden;text-decoration:none;transition:.18s transform,.18s border-color}
+.platform:hover,.course:hover{transform:translateY(-2px);border-color:#3a424d}
+.platform.primary{background:linear-gradient(140deg,#15191e,#0b0e12 65%,#17140c)}
+.platform .shine{position:absolute;inset:auto -30px -65px auto;width:180px;height:120px;border-radius:50%;background:rgba(226,196,91,.055);filter:blur(2px)}
+.picon{font-size:25px}.platform strong{display:block;margin-top:12px;font-size:15px}.platform p{margin:4px 0 0;color:#858e9a;font-size:10px;max-width:400px}.platform .go{position:absolute;right:15px;top:50%;font-size:20px;color:#69727e}
+.course-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.course{min-height:178px;border:1px solid var(--line2);border-radius:17px;background:linear-gradient(145deg,#11151a,#0a0c10);padding:0;overflow:hidden;display:flex;flex-direction:column;transition:.18s transform,.18s border-color}
+.course-top{height:64px;background:linear-gradient(135deg,#181c21,#0b0d10);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 15px}.course-icon{font-size:25px}.badge{font-size:8px;letter-spacing:1px;text-transform:uppercase;border:1px solid #51451b;color:#d9bd55;background:#18150c;border-radius:99px;padding:5px 7px;font-weight:900}
+.course-body{padding:12px 14px 13px;display:flex;flex-direction:column;flex:1}.course h3{margin:0;font-size:13px;line-height:1.2}.course p{margin:5px 0 10px;color:#7f8995;font-size:9.5px;line-height:1.4}.course .actions{margin-top:auto}.course .btn{width:100%;padding:8px 9px;font-size:10px}.course .mini{margin-top:8px;font-size:8.5px}
+.notice{margin-top:15px;border:1px solid #3d3620;border-radius:15px;background:#13120e;padding:12px 14px;color:#aaa18b;font-size:10px;line-height:1.45}.notice strong{color:#e1c768}
+@media(max-width:1100px){.layout{grid-template-columns:275px minmax(0,1fr)}.brand{font-size:38px}.course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:780px){.wrap{padding:18px 14px 40px}.layout{display:block}.sidebar{position:static}.brandbox{min-height:auto;padding:10px 0 22px}.logo-mark{width:64px;height:64px;border-radius:19px}.brand{font-size:36px}.stats{max-width:520px;margin:0 auto}.loginbar{max-width:520px;margin-left:auto;margin-right:auto}.contact{display:none}.top{align-items:flex-start}.course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-grid{grid-template-columns:1fr 1fr}h1{font-size:34px}}
+@media(max-width:500px){.wrap{padding:12px 10px 30px}.account .user{display:none}.hero{padding:21px 19px;border-radius:19px}h1{font-size:29px;letter-spacing:-1.3px}.hero-row{align-items:stretch}.hero-row .btn{width:100%}.freebox{width:100%}.platform-grid,.course-grid{grid-template-columns:1fr}.platform{min-height:115px}.course{min-height:170px}.top{margin-bottom:14px}.section{margin-top:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brandbox">
+        <div class="logo-mark">N<span>P</span></div>
+        <a class="brand" href="concursos.html">Nós <b>Passa</b></a>
+        <div class="slogan">Preparação pra concursos</div>
+        <div class="social"><span>◎</span><span>▶</span><span>♪</span></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong id="statStudents">—</strong><small>alunos<br>no total</small></div>
+        <div class="stat"><strong>+3</strong><small>preparações<br>ativas</small></div>
+        <div class="stat"><strong>R$19,90</strong><small>cursos<br>a partir de</small></div>
+      </div>
+
+      <a class="loginbar" href="login.html"><span>🔑 &nbsp; Já é nosso aluno? <strong>Clique aqui</strong></span><span class="arrow">›</span></a>
+
+      <div class="contact">
+        <div class="section-label">Fale com a gente</div>
+        <div class="contact-card">
+          <div class="contact-art">💬</div>
+          <div class="contact-copy"><strong>Atendimento</strong><p>Tire suas dúvidas sobre cursos e acesso.</p></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <div class="eyebrow">Plataforma de estudos</div>
+        <div id="account" class="account"></div>
+      </header>
+
+      <section class="hero">
+        <span class="tag">NÓS PASSA • CONCURSOS</span>
+        <h1>Estude. Treine. Passe.</h1>
+        <p class="muted">Escolha sua preparação e tenha acesso ao conteúdo certo para o seu concurso, sem complicação.</p>
+        <div class="hero-row">
+          <div class="freebox">
+            <div class="free-icon">🎯</div>
+            <div><strong>Teste antes de comprar</strong><div class="mini">Faça um simulado grátis com questões aleatórias.</div></div>
+          </div>
+          <a class="btn" href="simulados-gratis.html">Fazer simulado grátis →</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div><h2>Plataforma</h2><p>Ferramentas para estudar melhor.</p></div></div>
+        <div class="platform-grid">
+          <a class="platform primary" href="simulados-gratis.html"><div class="shine"></div><div class="picon">🚀</div><strong>Portal Nós Passa</strong><p>A estrutura para organizar sua preparação, praticar e acompanhar sua evolução.</p><span class="go">›</span></a>
+          <a class="platform" href="simulados-gratis.html"><div class="picon">📚</div><strong>Banco de Questões</strong><p>Pratique com questões e descubra onde precisa melhorar.</p><span class="go">›</span></a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div><h2>Preparatórios</h2><p>Escolha o concurso que você quer passar.</p></div></div>
+        <div class="course-grid" id="courses"></div>
+        <div class="notice"><strong>💡 Acesso independente:</strong> cada preparação é adquirida separadamente. Comprou um curso? O acesso fica liberado para aquele concurso.</div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const sb=supabase.createClient('https://ztqtcbzjesrkuaijmylm.supabase.co','sb_publishable_Lh0A_Ykm2h66ur3LojJKTQ_JdUVMK9d');
+const courses=[
+ {icon:'🦟',name:'ACE Maricá',description:'Agente de Combate às Endemias — Maricá/RJ.',target:'ace_marica.html',courseId:1},
+ {icon:'⚓',name:'Análise de Sistemas — SAP',description:'Transpetro 2026 — preparação para SAP.',target:'transpetro.html',courseId:2},
+ {icon:'⚡',name:'Inspetor de Elétrica — Nível 1',description:'Transpetro 2026 — preparação específica.',target:'inspetor_eletrica.html',courseId:3}
+];
+let session=null,access=new Set(),isAdmin=false;
+const coursesEl=document.getElementById('courses'),account=document.getElementById('account');
+async function init(){
+ const{data}=await sb.auth.getSession();session=data.session;
+ if(session){
+   const{data:a}=await sb.rpc('is_admin');isAdmin=a===true;
+   const{data:e}=await sb.from('user_courses').select('course_id,status,expires_at').eq('user_id',session.user.id).eq('status','active').gt('expires_at',new Date().toISOString());
+   access=new Set((e||[]).map(x=>String(x.course_id)));
+   account.innerHTML=`<span class="user">${session.user.email||''}</span>${isAdmin?'<a class="btn admin" href="admin-v2.html">⚙️ ADM</a>':''}<button class="btn dark" onclick="logout()">Sair</button>`;
+ }else account.innerHTML='<a class="btn dark" href="login.html">🔐 Entrar</a><a class="btn" href="login.html?cadastro=1">Criar conta</a>';
+ render();loadStats();
+}
+function targetFor(c){if(!isAdmin)return c.target;if(c.courseId===2)return'transpetro.html';if(c.courseId===3)return'inspetor_eletrica.html';return c.target}
+function render(){
+ coursesEl.innerHTML=courses.map(c=>{
+   const has=isAdmin||access.has(String(c.courseId));
+   const href=has?targetFor(c):`checkout.html?course=${c.courseId}`;
+   return `<article class="course"><div class="course-top"><span class="course-icon">${c.icon}</span><span class="badge">${has?'Liberado':'Preparatório'}</span></div><div class="course-body"><h3>${c.name}</h3><p>${c.description}</p><div class="actions"><a class="btn" href="${href}">${has?'▶ Estudar':'💳 R$ 19,90'}</a></div><div class="mini">${!session?'🔒 Entre para comprar ou estudar':has?(isAdmin?'🟢 Acesso administrativo':'🟢 Acesso liberado'):'🔒 Curso não liberado para esta conta'}</div></div></article>`
+ }).join('')
+}
+async function loadStats(){
+ try{const{count}=await sb.from('profiles').select('*',{count:'exact',head:true});if(typeof count==='number')document.getElementById('statStudents').textContent='+'+count.toLocaleString('pt-BR')}catch(e){document.getElementById('statStudents').textContent='+1'}
+}
+async function logout(){await sb.auth.signOut();location.reload()}
+init();
+</script>
+</body>
+</html>
