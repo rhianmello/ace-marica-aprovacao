@@ -49,8 +49,10 @@ async function init(){
  const{data:c,error}=await sb.from('courses').select('id,name,slug,description,price_cents').eq('active',true).order('id');
  if(error){$('msg').className='msg err';$('msg').textContent=error.message;return}
  courses=c||[];
- const requested=Number(new URLSearchParams(location.search).get('course'));
- if(requested && courses.some(c=>c.id===requested)) selected=requested;
+ const requested=new URLSearchParams(location.search).get('course');
+ const requestedNormalized=String(requested||'').trim().toLowerCase();
+ const found=courses.find(c=>String(c.id)===requestedNormalized || String(c.slug||'').toLowerCase()===requestedNormalized);
+ if(found) selected=found.id;
  render();
 }
 $('continue').onclick=async()=>{
