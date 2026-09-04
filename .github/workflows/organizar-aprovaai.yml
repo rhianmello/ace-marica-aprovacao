@@ -26,6 +26,7 @@ jobs:
               'index.html',
               'concursos.html',
               'login.html',
+              'transpetro-landing.html',
               'transpetro_cargos.html',
               'transpetro.html',
               'inspetor_eletrica.html',
@@ -41,24 +42,27 @@ jobs:
           index = Path('index.html').read_text(encoding='utf-8')
           concursos = Path('concursos.html').read_text(encoding='utf-8')
           cargos = Path('transpetro_cargos.html').read_text(encoding='utf-8')
+          landing = Path('transpetro-landing.html').read_text(encoding='utf-8')
           inspector = Path('inspetor_eletrica.html').read_text(encoding='utf-8')
 
-          if "concursos.html" not in index:
+          if 'concursos.html' not in index:
               raise SystemExit('index.html não redireciona para concursos.html')
-          if "login.html" not in concursos:
+          if 'login.html' not in concursos:
               raise SystemExit('concursos.html não possui entrada de autenticação')
-          if "transpetro_cargos.html" not in concursos:
-              raise SystemExit('concursos.html não aponta para a seleção da Transpetro')
-          if "transpetro.html" not in cargos:
+          if 'transpetro-landing.html' not in concursos:
+              raise SystemExit('concursos.html não aponta para a landing da Transpetro')
+          if 'transpetro.html' not in cargos:
               raise SystemExit('transpetro_cargos.html não possui a trilha SAP')
-          if "inspetor_eletrica.html" not in cargos:
+          if 'inspetor_eletrica.html' not in cargos:
               raise SystemExit('transpetro_cargos.html não possui a trilha Inspetor de Elétrica')
-          if "inspetor_eletrica_expansao.js" not in inspector:
+          if 'checkout.html?course=2' not in landing:
+              raise SystemExit('Landing Transpetro não possui CTA de compra')
+          if 'inspetor_eletrica_expansao.js' not in inspector:
               raise SystemExit('inspetor_eletrica.html não carrega o banco expandido')
-          if "plano_estudo_detalhado.js" not in inspector:
+          if 'plano_estudo_detalhado.js' not in inspector:
               raise SystemExit('inspetor_eletrica.html não carrega o plano detalhado')
 
-          for p in required[6:8]:
+          for p in required[7:9]:
               text = Path(p).read_text(encoding='utf-8')
               if 'INSPETOR_ELETRICA' not in text:
                   raise SystemExit(f'{p} não exporta o banco esperado')
@@ -67,5 +71,5 @@ jobs:
           if 'window.INSPETOR_PLANO_DETALHADO' not in plano:
               raise SystemExit('Plano detalhado não exporta INSPETOR_PLANO_DETALHADO')
 
-          print('OK: nova hierarquia do AprovaAI validada.')
+          print('OK: estrutura do Nós Passa validada.')
           PY
