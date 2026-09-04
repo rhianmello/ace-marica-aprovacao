@@ -75,8 +75,6 @@ create policy user_sessions_admin_all on public.user_sessions for all to authent
 drop policy if exists user_sessions_self_select on public.user_sessions;
 create policy user_sessions_self_select on public.user_sessions for select to authenticated using(user_id=auth.uid() or public.is_admin());
 
-authorize;
-
 create or replace function public.register_device(p_device_id text, p_device_name text default null, p_user_agent text default null)
 returns boolean language plpgsql security definer set search_path = public as $$
 declare v_uid uuid:=auth.uid(); v_count integer;
