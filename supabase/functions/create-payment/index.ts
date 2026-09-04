@@ -1,0 +1,72 @@
+import { createClient } from 'npm:@supabase/supabase-js@2'
+
+const cors = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+}
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
+  if (req.method !== 'POST') return json({ message: 'Método não permitido.' }, 405)
+
+  const auth = req.headers.get('Authorization')
+  if (!auth?.startsWith('Bearer ')) return json({ message: 'Não autenticado.' }, 401)
+
+  const token = auth.replace('Bearer ', '')
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+  const secretKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+  const mpToken = Deno.env.get('MP_ACCESS_TOKEN')
+  if (!secretKey || !mpToken) return json({ message: 'Configuração do servidor incompleta.' }, 500)
+
+  const admin = createClient(supabaseUrl, secretKey)
+  const { data: userData, error: userError } = await admin.auth.getUser(token)
+  if (userError || !userData.user) return json({ message: 'Sessão inválida.' }, 401)
+
+  let body: { purchase_id?: string }
+  try { body = await req.json() } catch { return json({ message: 'JSON inválido.' }, 400) }
+  if (!body.purchase_id) return json({ message: 'purchase_id é obrigatório.' }, 400)
+
+  const { data: purchase, error: purchaseError } = await admin
+    .from('purchases')
+    .select('id,user_id,course_id,amount_cents,currency,status,provider,provider_payment_id')
+    .eq('id', body.purchase_id)
+    .eq('user_id', userData.user.id)
+    .single()
+  if (purchaseError || !purchase) return json({ message: 'Compra não encontrada.' }, 404)
+  if (purchase.status !== 'pending') return json({ message: 'Esta compra não está pendente.' }, 409)
+  if (purchase.provider_payment_id) return json({ message: 'Esta compra já possui pagamento.' }, 409)
+
+  const { data: course, error: courseError } = await admin
+    .from('courses').select('id,name,description,price_cents,active').eq('id', purchase.course_id).single()
+  if (courseError || !course || !course.active) return json({ message: 'Curso indisponível.' }, 400)
+
+  const amountCents = Number(course.price_cents || 1990)
+  if (amountCents !== Number(purchase.amount_cents)) return json({ message: 'Valor da compra não confere com o curso.' }, 409)
+
+  const origin = req.headers.get('origin') || 'https://rhianmello.github.io'
+  const payload = {
+    items: [{ id: String(course.id), title: `ProvaNorte — ${course.name}`, description: course.description || 'Acesso por 1 ano', quantity: 1, currency_id: 'BRL', unit_price: amountCents / 100 }],
+    external_reference: String(purchase.id),
+    notification_url: `${supabaseUrl}/functions/v1/payment-webhook`,
+    back_urls: { success: `${origin}/concursos.html`, pending: `${origin}/concursos.html`, failure: `${origin}/checkout.html?course=${course.id}` },
+    auto_return: 'approved',
+  }
+
+  const mp = await fetch('https://api.mercadopago.com/checkout/preferences', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${mpToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const mpData = await mp.json()
+  if (!mp.ok || !mpData.id || !mpData.init_point) {
+    console.error('Mercado Pago preference error', mp.status, mpData)
+    return json({ message: 'Mercado Pago não conseguiu criar o checkout.' }, 502)
+  }
+
+  await admin.from('purchases').update({ provider: 'mercadopago', provider_payment_id: String(mpData.id), metadata: { preference_id: mpData.id } }).eq('id', purchase.id)
+  return json({ init_point: mpData.init_point, preference_id: mpData.id })
+})
