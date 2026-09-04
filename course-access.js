@@ -3,7 +3,7 @@
   const script=document.currentScript;
   const courseSlug=script?.dataset?.course;
   const url='https://ztqtcbzjesrkuaijmylm.supabase.co';
-  const goLogin=()=>{sessionStorage.setItem('aprovaai_redirect',location.pathname.split('/').pop()||'concursos.html');location.replace('login.html')};
+  const goLogin=()=>{sessionStorage.setItem('ap_target',location.href);location.replace('login.html')};
   const goCheckout=()=>location.replace('checkout.html?course='+encodeURIComponent(courseSlug||''));
   const blocked=(text)=>{document.body.innerHTML='<div style="min-height:100vh;display:grid;place-items:center;background:#0d1014;color:#fff;font-family:Arial;padding:24px;text-align:center"><div><h2>🔒 Limite de dispositivos atingido</h2><p style="color:#a6adb7;max-width:520px">'+text+'</p><a href="concursos.html" style="display:inline-block;padding:11px 15px;border-radius:9px;background:#e4c64a;color:#111;font-weight:800;text-decoration:none">Voltar</a></div></div>'};
   if(!courseSlug){document.body.innerHTML='<div style="padding:30px;font-family:Arial">Curso não configurado.</div>';return;}
