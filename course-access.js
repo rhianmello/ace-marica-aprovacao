@@ -18,6 +18,7 @@
       if(accessError||allowed!==true){goCheckout();return;}
       const dash=document.createElement('script');
       dash.src='./study-dashboard-clean.js';
+      dash.onload=()=>{const r=document.createElement('script');r.src='./retention.js';document.body.appendChild(r)};
       document.body.appendChild(dash);
     }catch(e){
       console.error(e);
